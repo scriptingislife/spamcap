@@ -1,0 +1,10 @@
+---
+# tasks file for spamcap
+- name: Install postfix
+  include_tasks: install_postfix.yml
+
+- name: Install PHP
+  include_tasks: install_php.yml
+
+- name: Configure postfix with hook
+  include_tasks: config_postfix.yml
