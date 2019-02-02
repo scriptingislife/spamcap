@@ -10,6 +10,8 @@ lint:
 platforms:
   - name: instance
     box: ubuntu/xenial64
+    instance_raw_config_args:
+      - "vm.network 'forwarded_port', guest: 25, host: 2525"
 provisioner:
   name: ansible
   lint:

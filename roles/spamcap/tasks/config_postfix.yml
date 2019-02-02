@@ -1,0 +1,47 @@
+---
+- name: Copy hook.php
+  copy:
+    src: files/hook.php
+    dest: /opt/hook.php
+    mode: 0777
+    owner: www-data
+    group: www-data
+  become: true
+
+- name: Add the hook definition to bottom of master.cf
+  blockinfile:
+    dest: /etc/postfix/master.cf
+    block: |
+      spamcap unix - n n - - pipe
+        flags=F user=www-data argv=/opt/hook.php ${sender} ${size} ${recipient}
+  register: hookdefined
+  become: true
+
+- name: Add the hook to master.cf
+  lineinfile:
+    path: /etc/postfix/master.cf
+    insertafter: '^smtp      inet n*'
+    line: ' -o content_filter=spamcap:dummy'
+  register: hookplaced
+  become: true
+
+- name: Change postfix hostname
+  lineinfile:
+    path: /etc/postfix/main.cf
+    regexp: '^myhostname = *'
+    line: 'myhostname = {{ hostname }}'
+  register: hostchanged
+  become: true
+
+- name: Allow relay access from anywhere
+  lineinfile:
+    path: /etc/postfix/main.cf
+    regex: '^mynetworks = *'
+    line: 'mynetworks = 0.0.0.0/0 ::/0'
+  register: relayaccess
+  become: true
+
+- name: Reload postfix
+  command: postfix reload
+  when: hookdefined.changed or hookplaced.changed or hostchanged.changed or relayaccess.changed
+  become: true

@@ -1,0 +1,11 @@
+---
+- name: Add PHP repository
+  apt_repository:
+    repo: ppa:ondrej/php
+  become: true
+
+- name: Install PHP
+  apt:
+    name: ['php7.2', 'php7.2-fpm']
+    update_cache: true
+  become: true
