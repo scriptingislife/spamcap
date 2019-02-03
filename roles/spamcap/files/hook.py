@@ -3,17 +3,19 @@ import sys
 import json
 import email
 import hashlib
+from datetime import datetime
 
 OUTPUT_DIR = '/tmp/'
 
 def create_filename(mime):
     if mime['Message-ID'] is None:
-        m = hashlib.md5()
-        return m.update(mime.get_payload()).hexdigest()
+        return str(datetime.now()) + '.json'
+        #m = hashlib.md5()
+        #return m.update(mime.get_payload()).hexdigest()
     return str(mime['Message-ID']).replace('<', '').replace('>', '') + '.json'
 
 def on_error(stdin):
-    with open('spamcap.err', 'a') as f:
+    with open(OUTPUT_DIR + 'spamcap.err', 'a') as f:
         f.write('\n')
         f.write(stdin)
         f.write('\n')

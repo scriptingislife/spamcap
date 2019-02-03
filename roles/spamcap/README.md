@@ -1,7 +1,7 @@
 Role Name
 =========
 
-Install's Postfix and PHP packages then configures Postfix to use the PHP hook. Script can be found in `files/`.
+Install's Postfix then configures it to use the spamcap hook. Script can be found in `files/`.
 
 Requirements
 ------------

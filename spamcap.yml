@@ -1,0 +1,4 @@
+---
+- hosts: honeypots
+  roles:
+    - spamcap
