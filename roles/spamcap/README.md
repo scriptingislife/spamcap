@@ -1,7 +1,7 @@
 Role Name
 =========
 
-Install's Postfix then configures it to use the spamcap hook. Script can be found in `files/`.
+Installs Postfix then configures it to use the spamcap hook to route all mail. Script can be found in `files/`.
 
 Requirements
 ------------
