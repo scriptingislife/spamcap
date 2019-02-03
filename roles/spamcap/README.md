@@ -6,7 +6,7 @@ Install's Postfix then configures it to use the spamcap hook. Script can be foun
 Requirements
 ------------
 
-Only tested on Ubuntu 16.04.
+Only tested on Ubuntu 16.04 and 18.04.
 
 Role Variables
 --------------
