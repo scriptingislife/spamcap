@@ -1,9 +1,9 @@
 ---
-- name: Copy hook.php
+- name: Copy hook script
   copy:
-    src: files/hook.php
-    dest: /opt/hook.php
-    mode: 0777
+    src: 'files/{{ hook_file }}'
+    dest: '{{ root_dir }}/{{ hook_file }}'
+    mode: 0700
     owner: www-data
     group: www-data
   become: true
@@ -13,7 +13,7 @@
     dest: /etc/postfix/master.cf
     block: |
       spamcap unix - n n - - pipe
-        flags=F user=www-data argv=/opt/hook.php ${sender} ${size} ${recipient}
+        flags=F user=www-data argv={{ root_dir }}/{{ hook_file }} ${sender} ${size} ${recipient}
   register: hookdefined
   become: true
 
@@ -37,7 +37,7 @@
   lineinfile:
     path: /etc/postfix/main.cf
     regex: '^mynetworks = *'
-    line: 'mynetworks = 0.0.0.0/0 ::/0'
+    line: 'mynetworks = 0.0.0.0/0'
   register: relayaccess
   become: true
 

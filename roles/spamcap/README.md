@@ -1,24 +1,24 @@
 Role Name
 =========
 
-Install's Postfix and PHP packages then configures Postfix to use the PHP hook.
+Install's Postfix and PHP packages then configures Postfix to use the PHP hook. Script can be found in `files/`.
 
 Requirements
 ------------
 
-Currently only uses apt.
+Currently only worked on Debian systems with apt.
 
 Role Variables
 --------------
 
-None currently.
+* `hostname` is the hostname used by postfix. Doesn't affect system hostname.
 
 Example Playbook
 ----------------
 
     - hosts: servers
       roles:
-         - { role: spamcap }
+         - { role: spamcap, hostname: 'spamcap.test'}
 
 License
 -------
