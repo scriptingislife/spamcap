@@ -1,2 +1,2 @@
 # spamcap
-An SMTP honeypot using a hook into postfix.
+An SMTP honeypot using a hook into postfix written in Python.
