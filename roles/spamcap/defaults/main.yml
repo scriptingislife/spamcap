@@ -1,5 +1,5 @@
 ---
 # defaults file for spamcap
-hostname: spamcap.test
+hostname: mailserver.test
 root_dir: /tmp
 hook_file: hook.py
