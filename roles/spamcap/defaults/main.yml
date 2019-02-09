@@ -3,3 +3,4 @@
 hostname: mailserver.test
 root_dir: /tmp
 hook_file: hook.py
+hook_user: vagrant

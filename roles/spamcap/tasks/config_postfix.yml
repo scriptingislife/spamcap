@@ -4,8 +4,8 @@
     src: 'files/{{ hook_file }}'
     dest: '{{ root_dir }}/{{ hook_file }}'
     mode: 0700
-    owner: www-data
-    group: www-data
+    owner: '{{ hook_user }}'
+    group: '{{ hook_user }}'
   become: true
 
 - name: Add the hook definition to bottom of master.cf
@@ -13,7 +13,7 @@
     dest: /etc/postfix/master.cf
     block: |
       spamcap unix - n n - - pipe
-        flags=F user=www-data argv={{ root_dir }}/{{ hook_file }} ${sender} ${size} ${recipient}
+        flags=F user={{ hook_user }} argv={{ root_dir }}/{{ hook_file }} ${sender} ${size} ${recipient}
   register: hookdefined
   become: true
 
