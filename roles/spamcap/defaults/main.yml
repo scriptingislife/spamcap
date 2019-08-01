@@ -1,6 +1,6 @@
 ---
 # defaults file for spamcap
 hostname: mailserver.test
-root_dir: /tmp
+root_dir: /opt/spamcap
 hook_file: hook.py
 hook_user: vagrant

@@ -1,13 +1,4 @@
 ---
-- name: Copy hook script
-  copy:
-    src: 'files/{{ hook_file }}'
-    dest: '{{ root_dir }}/{{ hook_file }}'
-    mode: 0700
-    owner: '{{ hook_user }}'
-    group: '{{ hook_user }}'
-  become: true
-
 - name: Add the hook definition to bottom of master.cf
   blockinfile:
     dest: /etc/postfix/master.cf
