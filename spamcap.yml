@@ -1,4 +1,11 @@
 ---
 - hosts: honeypots
-  roles:
-    - spamcap
+  gather_facts: no
+  tasks:
+    - name: Install Python for Ansible
+      raw: bash test -e /usr/bin/python3 || (sudo apt update -y && sudo apt install -y python )
+      become: true
+
+    - name: Install spamcap
+      include_role:
+        name: spamcap

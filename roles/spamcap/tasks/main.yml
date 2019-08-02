@@ -1,6 +1,6 @@
 ---
 - name: Install Python 3
-  package:
+  apt:
     name: ['python3', 'python3-pip']
   become: true
 
