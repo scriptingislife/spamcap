@@ -1,5 +1,5 @@
 ---
-- hosts: honeypots
+- hosts: all
   gather_facts: no
   tasks:
     - name: Install Python for Ansible

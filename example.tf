@@ -75,6 +75,7 @@ data "aws_ami" "ubuntu" {
 resource "aws_security_group" "allow_smtp" {
     name = "allow_smtp"
     description = "Allow SMTP on port 25"
+    vpc_id = "vpc-a95910cd"
 
     ingress {
         from_port = 22
@@ -86,12 +87,17 @@ resource "aws_security_group" "allow_smtp" {
 
 resource "aws_instance" "spamcap" {
     ami = "${data.aws_ami.ubuntu.id}"
-    instance_type = "t3.nano"
-    security_groups = ["${aws_security_group.allow_smtp.name}"]
+    instance_type = "t2.nano"
+    vpc_security_group_ids = ["${aws_security_group.allow_smtp.id}"]
     iam_instance_profile = "${aws_iam_instance_profile.spamcap.name}"
     key_name = "AWSDefault"
+    subnet_id = "subnet-0f8b3679"
 
     tags = {
-        Name = "Spamcap"
+        Name = "spamcap"
+    }
+
+    provisioner "local-exec" {
+        command = "sleep 60; ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu --private-key ~/.ssh/AWSDefault -i '${aws_instance.spamcap.public_ip},' spamcap.yml"
     }
 }
