@@ -2,4 +2,4 @@ hosts
 *.retry
 .vscode/
 .terraform
-.tfstate*
+*.tfstate*
