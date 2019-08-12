@@ -3,6 +3,7 @@ import sys
 import json
 import email
 import hashlib
+import traceback
 from datetime import datetime
 import boto3
 
@@ -34,7 +35,7 @@ def main(stdin):
     filename = create_filename(msg)
     newlines = str(msg).replace('\\n', '\n')
 
-    s3 = boto3.resource('s3')
+    s3 = boto3.client('s3')
     s3.put_object(Bucket=BUCKET_NAME, Key=filename, Body=newlines.encode('utf-8'), ContentType='text/plain', ACL='public-read')
 
     #with open(OUTPUT_DIR + filename, 'w') as f:
@@ -46,4 +47,5 @@ if __name__ == '__main__':
     try:
         main(stdin)
     except:
+        traceback.print_exc()
         on_error(stdin)

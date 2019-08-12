@@ -106,6 +106,6 @@ resource "aws_instance" "spamcap" {
     }
 
     provisioner "local-exec" {
-        command = "sleep 60; ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu --private-key ~/.ssh/AWSDefault -i '${aws_instance.spamcap.public_ip},' spamcap.yml"
+        command = "sleep 60; ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu --private-key ~/.ssh/AWSDefault -i '${aws_instance.spamcap.public_ip},' -e 'ansible_python_interpreter=/usr/bin/python3' spamcap.yml"
     }
 }
