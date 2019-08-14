@@ -74,17 +74,38 @@ data "aws_ami" "ubuntu" {
     owners = ["099720109477"] # Canonical
 }
 
+resource "aws_security_group" "allow_ssh" {
+    name = "allow_ssh"
+    description = "Allow SSH on port 22"
+    vpc_id = "vpc-a95910cd"
+
+    ingress {
+        from_port = 22
+        to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+}
+
 resource "aws_security_group" "allow_smtp" {
     name = "allow_smtp"
     description = "Allow SMTP on port 25"
     vpc_id = "vpc-a95910cd"
 
     ingress {
-        from_port = 22
+        from_port = 25
         to_port = 25
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
+
+}
+
+resource "aws_security_group" "allow_egress_all" {
+    name = "allow_egress_all"
+    description = "Allow all outbound traffic"
+    vpc_id = "vpc-a95910cd"
 
     egress {
         from_port = 0
@@ -92,13 +113,12 @@ resource "aws_security_group" "allow_smtp" {
         protocol = "-1"
         cidr_blocks = ["0.0.0.0/0"]
     }
-
 }
 
 resource "aws_instance" "spamcap" {
     ami = "${data.aws_ami.ubuntu.id}"
     instance_type = "t2.nano"
-    vpc_security_group_ids = ["${aws_security_group.allow_smtp.id}"]
+    vpc_security_group_ids = ["${aws_security_group.allow_ssh.id}", "${aws_security_group.allow_smtp.id}", "${aws_security_group.allow_egress_all.id}"]
     iam_instance_profile = "${aws_iam_instance_profile.spamcap.name}"
     key_name = "AWSDefault"
     subnet_id = "subnet-0f8b3679"
