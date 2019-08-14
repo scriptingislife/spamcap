@@ -7,7 +7,7 @@ import traceback
 from datetime import datetime
 import boto3
 
-OUTPUT_DIR = '/tmp/'
+OUTPUT_DIR = '{{ root_dir }}'
 BUCKET_NAME = 'spamcap'
 
 def create_filename(mime):

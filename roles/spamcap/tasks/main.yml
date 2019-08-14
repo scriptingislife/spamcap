@@ -20,7 +20,7 @@
   become: true
 
 - name: Copy hook script
-  copy:
+  template:
     src: 'files/{{ hook_file }}'
     dest: '{{ root_dir }}/{{ hook_file }}'
     mode: 0700

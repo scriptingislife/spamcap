@@ -36,6 +36,8 @@ resource "aws_iam_policy" "spamcap" {
             "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": [
+                "iam:PassRole",
+                "iam:ListInstanceProfiles",
                 "s3:PutObject",
                 "s3:PutObjectAcl"
             ],
