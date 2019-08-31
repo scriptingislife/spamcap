@@ -4,6 +4,7 @@ import json
 import email
 import hashlib
 import traceback
+import logging
 from datetime import datetime
 import boto3
 
@@ -11,17 +12,16 @@ OUTPUT_DIR = '{{ root_dir }}'
 BUCKET_NAME = 'spamcap'
 
 def create_filename(mime):
-    if mime['Message-ID'] is None:
-        return str(datetime.now()) + '.json'
+    return str(datetime.now()).replace(' ', '_') + '.txt'
+    #if mime['Message-ID'] is None:
+    #    return str(datetime.now()) + '.txt'
         #m = hashlib.md5()
         #return m.update(mime.get_payload()).hexdigest()
-    return str(mime['Message-ID']).replace('<', '').replace('>', '') + '.json'
+    #return str(mime['Message-ID']).replace('<', '').replace('>', '') + '.txt'
 
 def on_error(stdin):
-    with open(OUTPUT_DIR + 'spamcap.err', 'a') as f:
-        f.write('\n')
-        f.write(stdin)
-        f.write('\n')
+    with open(OUTPUT_DIR + '/spamcap.err', 'a') as f:
+        traceback.print_exc(file=f)
 
 def main(stdin):
     msg = email.message_from_string(stdin)
@@ -46,6 +46,5 @@ if __name__ == '__main__':
     stdin = sys.stdin.read()
     try:
         main(stdin)
-    except:
-        traceback.print_exc()
+    except Exception as e:
         on_error(stdin)

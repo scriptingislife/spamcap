@@ -36,12 +36,22 @@ resource "aws_iam_policy" "spamcap" {
             "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": [
-                "iam:PassRole",
-                "iam:ListInstanceProfiles",
                 "s3:PutObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "${aws_s3_bucket.spamcap.arn}"
+            "Resource": [
+                "arn:aws:s3:::spamcap",
+                "arn:aws:s3:::*/*"
+            ]
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "iam:PassRole",
+                "iam:ListInstanceProfiles"
+            ],
+            "Resource": "arn:aws:s3:::spamcap"
         }
     ]
 }

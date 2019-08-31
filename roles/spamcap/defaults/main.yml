@@ -3,4 +3,4 @@
 hostname: mailserver.test
 root_dir: /opt/spamcap
 hook_file: hook.py
-hook_user: vagrant
+hook_user: ubuntu
